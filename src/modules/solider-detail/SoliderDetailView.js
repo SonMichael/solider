@@ -66,6 +66,12 @@ export default class SoliderDetailView extends Component {
                 </View>
                 <View style={styles.wrapItem}>
                     <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Địa chỉ đang ở</Text>
+                        <Text style={[styles.txtTitle]}>{address}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
                         <Text style={[styles.txtTitle]}>Số điện thoại</Text>
                         <Text style={[styles.txtTitle]}>{phone}</Text>
                     </View>
@@ -84,37 +90,10 @@ export default class SoliderDetailView extends Component {
             </View>
             <View style={styles.wrapItem}>
                 <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Thông tin thêm về cha</Text>
-                    <Text style={[styles.txtTitle]}>{father_note}</Text>
-                </View>
-
-            </View>
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Thông tin thêm về mẹ</Text>
-                    <Text style={[styles.txtTitle]}>{mother_note}</Text>
-                </View>
-            </View>
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Địa chỉ đang ở</Text>
-                    <Text style={[styles.txtTitle]}>{address}</Text>
-                </View>
-            </View>
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Đại đội</Text>
-                    <Text style={[styles.txtTitle]}>{company_key}</Text>
-                </View>
-            </View>
-
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
                     <Text style={[styles.txtTitle]}>Tôn giáo</Text>
                     <Text style={[styles.txtTitle]}>{religion_name}</Text>
                 </View>
             </View>
-
             <View style={styles.wrapItem}>
                 <View style={styles.wrapItemContent}>
                     <Text style={[styles.txtTitle]}>Trình độ văn hóa</Text>
@@ -127,19 +106,86 @@ export default class SoliderDetailView extends Component {
                     <Text style={[styles.txtTitle]}>{group_name}</Text>
                 </View>
             </View>
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Cấp bậc</Text>
-                    <Text style={[styles.txtTitle]}>{rank_name}</Text>
-                </View>
-            </View>
-            <View style={styles.wrapItem}>
-                <View style={styles.wrapItemContent}>
-                    <Text style={[styles.txtTitle]}>Chức vụ</Text>
-                    <Text style={[styles.txtTitle]}>{position_name}</Text>
-                </View>
-            </View>
 
+            <View style={styles.wrapItem}>
+                <View style={styles.wrapItemContent}>
+                    <Text style={[styles.txtTitle]}>Thông tin thêm về cha</Text>
+                    <Text style={[styles.txtTitle]}>{father_note}</Text>
+                </View>
+
+            </View>
+            <View style={styles.wrapItem}>
+                <View style={styles.wrapItemContent}>
+                    <Text style={[styles.txtTitle]}>Thông tin thêm về mẹ</Text>
+                    <Text style={[styles.txtTitle]}>{mother_note}</Text>
+                </View>
+            </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Thông tin thêm của chiến sĩ</Text>
+                        <Text style={[styles.txtTitle]}>{note}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Thông tin thêm về bạn gái</Text>
+                        <Text style={[styles.txtTitle]}>{girl_friend_note}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Số điện thoại bạn gái</Text>
+                        <Text style={[styles.txtTitle]}>{girl_friend_phone_number}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Zalo bạn gái</Text>
+                        <Text style={[styles.txtTitle]}>{girl_friend_zalo}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Link Facebook bạn gái</Text>
+                        <Text style={[styles.txtTitle]}>{girl_friend_facebook}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Ngày sinh bạn gái</Text>
+                        <Text style={[styles.txtTitle]}>{girl_friend_birthday}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Link Facebook chiến sĩ</Text>
+                        <Text style={[styles.txtTitle]}>{facebook_link}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Zalo chiến sĩ</Text>
+                        <Text style={[styles.txtTitle]}>{zalo_link}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Cấp bậc</Text>
+                        <Text style={[styles.txtTitle]}>{rank_name}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Đơn vị</Text>
+                        <Text style={[styles.txtTitle]}>{company_key}</Text>
+                    </View>
+                </View>
+                <View style={styles.wrapItem}>
+                    <View style={styles.wrapItemContent}>
+                        <Text style={[styles.txtTitle]}>Chức vụ</Text>
+                        <Text style={[styles.txtTitle]}>{position_name}</Text>
+                    </View>
+                </View>
             </View>
         )
     }
