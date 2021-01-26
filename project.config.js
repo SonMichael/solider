@@ -1,6 +1,6 @@
 import { Platform } from 'react-native'
 
-const ENV = 'production'
+const ENV = 'dev'
 const VERSION = '1.3.2'
 
 let apiBaseUrl = ''
@@ -12,8 +12,12 @@ const appleAppID = '1506869739'
 const googlePackageName = 'com.reactnativestarter'
 const iosPackageName = 'com.reactnativestarter.app'
 switch (ENV) {
-  case 'staging':
-    apiBaseUrl = 'https://api.covid19api.com/'
+  case 'local':
+      apiBaseUrl = 'http://api.kynaforkids.local/'
+      mediaBaseUrl = 'https://media.covid19api.com/'
+      break
+  case 'dev':
+    apiBaseUrl = 'https://api-dev.kynaforkids.vn/'
     mediaBaseUrl = 'https://media.covid19api.com/'
     break
   case 'production':

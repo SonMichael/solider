@@ -13,41 +13,21 @@ export default function NavigatorView(props) {
   // }
   // return <AuthScreen />;
 
-  const headerLeftComponentMenu = () => {
-    return (
-      <TouchableOpacity
-        onPress={() => props.navigation.toggleDrawer()}
-        style={{
-          paddingLeft: 10,
-        }}
-      >
-        <Image
-          source={require('../../../assets/images/drawer/menu.png')}
-          resizeMode="contain"
-          style={{
-            height: 20,
-          }}
-        />
-      </TouchableOpacity>    
-    )
-  }
-
   return (
-    <Stack.Navigator>
-      {StackNavigationData.map((item, idx) => (
-        <Stack.Screen
-          key={`stack_item-${idx+1}`}
-          name={item.name} 
-          component={item.component} 
-          options={{
-            headerLeft: item.headerLeft || headerLeftComponentMenu,
-            headerBackground: () => (
-              <Image style={styles.headerImage} source={item.headerBackground.source} />
-            ),
-            headerTitleStyle: item.headerTitleStyle,
-          }} 
-        />
-      ))}
+    <Stack.Navigator
+        screenOptions={{
+            headerShown: false
+        }}
+    >
+      {StackNavigationData.map((item, idx) => {
+        return (
+            <Stack.Screen
+                key={`stack_item-${idx+1}`}
+                name={item.name}
+                component={item.component}
+            />
+        )
+      })}
     </Stack.Navigator>
   );
 }
@@ -60,6 +40,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     width: 100 + '%',
-    height: Header.height,
+    height: '100%',
+      backgroundColor:'red'
   },
 });

@@ -8,11 +8,12 @@ import { colors } from './src/styles';
 import { store, persistor } from './src/redux/store';
 
 import AppView from './src/modules/AppViewContainer';
+import NavigationServices from "./src/services/navigation-service";
 
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer ref={NavigationServices.setTopLevelNavigator}>
         <PersistGate
           loading={
             // eslint-disable-next-line react/jsx-wrap-multilines

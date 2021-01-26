@@ -3,82 +3,52 @@ import orderBy from 'lodash/orderBy'
 import isEmpty from 'lodash/isEmpty'
 import { apiService } from '../../services'
 
-const HOME_STATE_GET_PREMIUM_SUMMARY_REQUEST = 'HOME_STATE_GET_PREMIUM_SUMMARY_REQUEST'
-const HOME_STATE_GET_PREMIUM_SUMMARY_SUCCESS = 'HOME_STATE_GET_PREMIUM_SUMMARY_SUCCESS'
-const HOME_STATE_GET_PREMIUM_SUMMARY_FAILURE = 'HOME_STATE_GET_PREMIUM_SUMMARY_FAILURE'
+const HOME_STATE_GET_LIST_SOLID_DATA_REQUEST = 'HOME_STATE_GET_LIST_SOLID_DATA_REQUEST'
+const HOME_STATE_GET_LIST_SOLID_DATA_SUCCESS = 'HOME_STATE_GET_LIST_SOLID_DATA_SUCCESS'
+const HOME_STATE_GET_LIST_SOLID_DATA_FAILURE = 'HOME_STATE_GET_LIST_SOLID_DATA_FAILURE'
 
-const HOME_STATE_GET_COUNTRIES_REQUEST = 'HOME_STATE_GET_COUNTRIES_REQUEST'
-const HOME_STATE_GET_COUNTRIES_SUCCESS = 'HOME_STATE_GET_COUNTRIES_SUCCESS'
-const HOME_STATE_GET_COUNTRIES_FAILURE = 'HOME_STATE_GET_COUNTRIES_FAILURE'
+const API_GET_LIST_SOLID_DATA = 'v1/guest/get-list-so-data'
 
-const API_PREMIUM_SUMMARY = 'premium/summary'
-const API_GET_COUNTRIES = 'countries'
+export function getSolidData(solidName= '') {
 
-export function getPremiumSummary() {
+  const getData = {
+      page_size: 100,
+      current_page: 0,
+      name: solidName
 
+  }
   return (dispatch, getState) => new Promise((resolve, reject) => {
-    dispatch({ type: HOME_STATE_GET_PREMIUM_SUMMARY_REQUEST })
-    apiService.get(API_PREMIUM_SUMMARY, {}, '').then(
+    dispatch({ type: HOME_STATE_GET_LIST_SOLID_DATA_REQUEST })
+    apiService.get(API_GET_LIST_SOLID_DATA, getData, '').then(
       responseData => {
-        if (!responseData.Countries) {
-          reject(responseData.Message)
+        if (!responseData.success) {
+          reject(responseData.data)
           return dispatch({
-            type: HOME_STATE_GET_PREMIUM_SUMMARY_FAILURE,
-            error: responseData.Message,
+            type: HOME_STATE_GET_LIST_SOLID_DATA_FAILURE,
+            error: responseData.data,
           })
         }
-        dispatch({ type: HOME_STATE_GET_PREMIUM_SUMMARY_SUCCESS, data: responseData.Countries })
-        return resolve(responseData)
+        dispatch({ type: HOME_STATE_GET_LIST_SOLID_DATA_SUCCESS, data: responseData.data.data })
+        return resolve(responseData.data)
       },
       error => {
         console.log(error.message)
-        dispatch({ type: HOME_STATE_GET_PREMIUM_SUMMARY_FAILURE, error })
-      },
-    )
-  })
-}
-
-export function getCountries() {
-
-  return (dispatch, getState) => new Promise((resolve, reject) => {
-    dispatch({ type: HOME_STATE_GET_COUNTRIES_REQUEST })
-    apiService.get(API_GET_COUNTRIES, {}, '').then(
-      responseData => {
-        if (!responseData) {
-          reject(responseData.message)
-          return dispatch({
-            type: HOME_STATE_GET_COUNTRIES_FAILURE,
-            error: responseData.message,
-          })
-        }
-        dispatch({ type: HOME_STATE_GET_COUNTRIES_SUCCESS, data: responseData })
-        return resolve(responseData)
-      },
-      error => {
-        console.log(error.message)
-        dispatch({ type: HOME_STATE_GET_COUNTRIES_FAILURE, error })
+        dispatch({ type: HOME_STATE_GET_LIST_SOLID_DATA_FAILURE, error })
       },
     )
   })
 }
 
 const defaultState = {
-  countries: [],
-  statisticByCountry: [],
+  solidData: [],
 };
 
 export default function CalendarStateReducer(state = defaultState, action) {
   switch (action.type) {
-    case HOME_STATE_GET_PREMIUM_SUMMARY_SUCCESS:
+    case HOME_STATE_GET_LIST_SOLID_DATA_SUCCESS:
       return  {
         ...state,
-        statisticByCountry: action.data,
-      }
-      break;
-    case HOME_STATE_GET_COUNTRIES_SUCCESS:
-      return  {
-        ...state,
-        countries: action.data,
+          solidData: action.data,
       }
       break;
     default:

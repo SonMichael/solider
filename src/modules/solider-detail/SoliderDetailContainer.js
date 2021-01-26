@@ -1,16 +1,15 @@
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import HomeScreen from './HomeView';
-import {getSolidData} from './HomeState'
+import SoliderDetailView from './SoliderDetailView';
+import {getSolidDataDetail} from './SoliderDetailState'
 
 export default compose(
   connect(
     state => ({
-      countries: state.home?.countries,
     }),
     {
-      getSolidData
+      getSolidDataDetail
     },
   ),
-)(HomeScreen);
+)(SoliderDetailView);

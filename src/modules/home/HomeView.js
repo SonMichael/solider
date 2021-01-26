@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+    SafeAreaView,
 } from 'react-native';
 import {SearchBar} from 'react-native-elements'
 import {fonts, colors} from '../../styles';
@@ -13,12 +14,15 @@ import {Text} from '../../components/StyledText';
 import PropTypes from 'prop-types'
 import {scale} from "../../styles/index";
 import _ from 'lodash'
+import {debounce} from 'lodash'
+import NavigationServices from "../../services/navigation-service";
+import {ROUTE_SOLIDER_DETAIL_NAME} from "../navigation/stackNavigationData"
+
 
 
 export default class HomeScreen extends Component {
   static propTypes = {
-    getCountries: PropTypes.func,
-    getPremiumSummary: PropTypes.func,
+    getSolidData: PropTypes.func,
   }
 
   constructor(props) {
@@ -26,35 +30,32 @@ export default class HomeScreen extends Component {
     this.state = {
       loading: true,
       data: null,
-      reserveData: null,
-      countries: null
+      search:''
     };
   }
 
   componentDidMount(){
-    this.props.getPremiumSummary().then(response => {
+    this.props.getSolidData().then(response => {
       this.setState(({
         loading: false,
-        data: response.Countries,
-        reserveData: response.Countries,
-      }))
-    })
-    this.props.getCountries().then(response => {
-      this.setState(({
-        countries: response
+        data: response.data,
       }))
     })
   }
 
+  onPressSolider = (_id) => {
+    NavigationServices.navigate(ROUTE_SOLIDER_DETAIL_NAME, {_id})
+  }
+
   renderItem = ({ item }) => {
-    const {Country, TotalCases , NewCases  ,TotalDeaths} = item
+    const {name, phone , birthday  ,address ,_id} = item
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <Text style={[styles.txtDes]}>{Country}</Text>
-        <Text style={styles.txtDes}>{TotalCases}</Text>
-        <Text style={styles.txtDes}>{NewCases}</Text>
-        <Text style={styles.txtDes}>{TotalDeaths}</Text>
-      </View>
+      <TouchableOpacity onPress={() => this.onPressSolider(_id)} style={{flex: 1, flexDirection: 'row'}}>
+        <Text style={[styles.txtDes]}>{name}</Text>
+        <Text style={styles.txtDes}>{phone}</Text>
+        <Text style={styles.txtDes}>{birthday}</Text>
+        <Text style={styles.txtDes}>{address}</Text>
+      </TouchableOpacity>
     )
   }
 
@@ -77,10 +78,10 @@ export default class HomeScreen extends Component {
     return (
       <View style={{alignItems: 'center'}}>
         <View style={{flex: 1, flexDirection: 'row', marginTop: scale(10)}}>
-          <Text style={[styles.txtTitle]}>Country</Text>
-          <Text style={[styles.txtTitle]}>Total Cases</Text>
-          <Text style={styles.txtTitle}>New Cases</Text>
-          <Text style={styles.txtTitle}>Deaths</Text>
+          <Text style={[styles.txtTitle]}>Tên</Text>
+          <Text style={[styles.txtTitle]}>Số điện thoại</Text>
+          <Text style={styles.txtTitle}>Ngày sinh</Text>
+          <Text style={styles.txtTitle}>Địa chỉ đang ở</Text>
         </View>
         <View
           style={{
@@ -111,85 +112,44 @@ export default class HomeScreen extends Component {
   }
 
   updateSearch = (searchText) => {
-    const {reserveData} = this.state
-    if(_.isEmpty(searchText)){
-      return this.setState({ search: searchText , data: reserveData})
-    }
-    const dataSearch = this.getDataSearch(searchText)
-    return this.setState({ search: searchText , data: dataSearch})
+      this.setState({search: searchText})
+      this.search(searchText)
   }
 
-  getDataSearch = (searchText) => {
-    const {reserveData} = this.state
-    if(_.isEmpty(reserveData)){
-      return null
-    }
-    const iso = this.getIso(searchText)
-    if(_.isEmpty(iso)){
-      return null
-    }
-    let result = []
-    for (let i = 0; i < iso.length ; i++) {
-      const item = iso[i]
-      const newData = _.filter(reserveData, {CountryISO: item.ISO2})
-      if(_.isEmpty(newData) || _.isEmpty(newData[0]) || this.isExistIso(result ,item.ISO2)){
-        continue
+  search = debounce ((searchText) => {
+      if(_.isEmpty(searchText)){
+          return
       }
-      result.push(newData[0])
-    }
-    return result
-  }
-
-  isExistIso = (array, iso) => {
-    if(_.isEmpty(array)){
-      return false
-    }
-    const result = _.get(array, {CountryISO: iso})
-    if(_.isEmpty(result)) {
-      return false
-    }
-    return true
-  }
-
-  getIso = (searchText) => {
-    const {countries} = this.state
-    if(_.isEmpty(countries)){
-      return null
-    }
-    const newData = _.filter(countries, item => {
-      const itemData = `${item.Country.toUpperCase()}`;
-      const textData = searchText.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    })
-    if(_.isEmpty(newData)){
-      return null
-    }
-    return newData
-  }
+      this.props.getSolidData(searchText).then(response => {
+          this.setState(({
+              loading: false,
+              data: response.data,
+          }))
+      })
+  }, 500)
 
   render() {
     const {data, search} = this.state
     return (
-      <View style={styles.container}>
-        <SearchBar
-          containerStyle={{width: '100%', backgroundColor: '#CED0CE', fontFamily: fonts.primaryLight}}
-          inputContainerStyle={{backgroundColor: 'white', height: scale(30) }}
-          placeholder="Type Here..."
-          round
-          onChangeText={this.updateSearch}
-          value={search}
-        />
-        <FlatList
-          contentContainerStyle={{flexGrow: 1}}
-          data={data}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.Country}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          horizontal={false}
-        />
-      </View>
+        <View style={styles.container}>
+          <SearchBar
+              containerStyle={{width: '100%', backgroundColor: '#CED0CE', fontFamily: fonts.primaryLight}}
+              inputContainerStyle={{backgroundColor: 'white', height: scale(30) }}
+              placeholder="Tìm kiếm..."
+              round
+              onChangeText={this.updateSearch}
+              value={search}
+          />
+          <FlatList
+              contentContainerStyle={{flexGrow: 1}}
+              data={data}
+              renderItem={this.renderItem}
+              keyExtractor={item => item.Country}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
+          />
+        </View>
     )
   }
 
@@ -198,7 +158,8 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+      marginTop: scale(25),
   },
   txtTitle: {
     fontFamily: fonts.primaryLight,
