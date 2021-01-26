@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
     SafeAreaView,
+    Platform
 } from 'react-native';
 import {SearchBar} from 'react-native-elements'
 import {fonts, colors} from '../../styles';
@@ -17,8 +18,9 @@ import _ from 'lodash'
 import {debounce} from 'lodash'
 import NavigationServices from "../../services/navigation-service";
 import {ROUTE_SOLIDER_DETAIL_NAME} from "../navigation/stackNavigationData"
+import {dateTimeHelper} from "../../helpers"
 
-
+const isIOS = Platform.OS === 'ios'
 
 export default class HomeScreen extends Component {
   static propTypes = {
@@ -53,7 +55,7 @@ export default class HomeScreen extends Component {
       <TouchableOpacity onPress={() => this.onPressSolider(_id)} style={{flex: 1, flexDirection: 'row'}}>
         <Text style={[styles.txtDes]}>{name}</Text>
         <Text style={styles.txtDes}>{phone}</Text>
-        <Text style={styles.txtDes}>{birthday}</Text>
+        <Text style={styles.txtDes}>{dateTimeHelper.convertToDate(birthday, 'DD/MM/YYYY')}</Text>
         <Text style={styles.txtDes}>{address}</Text>
       </TouchableOpacity>
     )
@@ -117,16 +119,14 @@ export default class HomeScreen extends Component {
   }
 
   search = debounce ((searchText) => {
-      if(_.isEmpty(searchText)){
-          return
-      }
+      searchText = _.isEmpty(searchText) ? '' : searchText
       this.props.getSolidData(searchText).then(response => {
           this.setState(({
               loading: false,
               data: response.data,
           }))
       })
-  }, 500)
+  }, 100)
 
   render() {
     const {data, search} = this.state
@@ -134,7 +134,7 @@ export default class HomeScreen extends Component {
         <View style={styles.container}>
           <SearchBar
               containerStyle={{width: '100%', backgroundColor: '#CED0CE', fontFamily: fonts.primaryLight}}
-              inputContainerStyle={{backgroundColor: 'white', height: scale(30) }}
+              inputContainerStyle={{backgroundColor: 'white', height: scale(40) }}
               placeholder="Tìm kiếm..."
               round
               onChangeText={this.updateSearch}
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-      marginTop: scale(25),
+      marginTop: isIOS ? scale(25) : null,
   },
   txtTitle: {
     fontFamily: fonts.primaryLight,
