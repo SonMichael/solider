@@ -24,13 +24,13 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props} style={{padding: 0}}>
       <View style={styles.avatarContainer}>
-        <Image
-          style={styles.avatar}
-          source={require('../../../assets/images/avatar3.png')}
-        />
+        {/*<Image*/}
+          {/*style={styles.avatar}*/}
+          {/*source={require('../../../assets/images/avatar3.png')}*/}
+        {/*/>*/}
         <View style={{ paddingLeft: 15 }}>
-          <Text style={styles.userName}>Son Le</Text>
-          <Text style={{ color: '#4BC1FD' }}>lehuuson2014@gmail.com</Text>
+          {/*<Text style={styles.userName}>Son Le</Text>*/}
+          <Text style={{ color: '#4BC1FD' }}>cscentercare@gmail.com</Text>
         </View>
       </View>
       <View style={styles.divider} />
