@@ -49,10 +49,11 @@ export default class HomeScreen extends Component {
     NavigationServices.navigate(ROUTE_SOLIDER_DETAIL_NAME, {_id})
   }
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const {name, phone , birthday  ,address ,_id} = item
     return (
       <TouchableOpacity onPress={() => this.onPressSolider(_id)} style={{flex: 1, flexDirection: 'row'}}>
+        <Text style={[styles.lblSttContent]}>{index + 1}</Text>
         <Text style={[styles.txtDes]}>{name}</Text>
         <Text style={styles.txtDes}>{phone}</Text>
         <Text style={styles.txtDes}>{dateTimeHelper.convertToDate(birthday, 'DD/MM/YYYY')}</Text>
@@ -80,10 +81,11 @@ export default class HomeScreen extends Component {
     return (
       <View style={{alignItems: 'center'}}>
         <View style={{flex: 1, flexDirection: 'row', marginTop: scale(10)}}>
+          <Text style={[styles.lblStt]}>Stt</Text>
           <Text style={[styles.txtTitle]}>Tên</Text>
           <Text style={[styles.txtTitle]}>Số điện thoại</Text>
           <Text style={styles.txtTitle}>Ngày sinh</Text>
-          <Text style={styles.txtTitle}>Địa chỉ đang ở</Text>
+          <Text style={styles.txtTitle}>Nơi sinh</Text>
         </View>
         <View
           style={{
@@ -166,18 +168,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: scale(15),
     color: '#757575',
-    width: '25%',
+    width: '20%',
     textAlign: 'left',
     paddingLeft: scale(18),
 
+  },
+  lblStt: {
+      fontFamily: fonts.primaryLight,
+      fontWeight: 'bold',
+      fontSize: scale(15),
+      color: '#757575',
+      width: '15%',
+      textAlign: 'left',
+      paddingLeft: scale(12),
   },
   txtDes: {
     fontFamily: fonts.primaryLight,
     fontWeight: 'bold',
     fontSize: scale(14),
     color: '#000000',
-    width: '25%',
+    width: '20%',
     textAlign: 'left',
     paddingLeft: scale(18),
-  }
+  },
+    lblSttContent: {
+        fontFamily: fonts.primaryLight,
+        fontWeight: 'bold',
+        fontSize: scale(14),
+        color: '#000000',
+        width: '15%',
+        textAlign: 'left',
+        paddingLeft: scale(18),
+    }
 });

@@ -90,6 +90,24 @@ export default class SoliderDetailView extends Component {
             </View>
             <View style={styles.wrapItem}>
                 <View style={styles.wrapItemContent}>
+                    <Text style={[styles.txtTitle]}>Cấp bậc</Text>
+                    <Text style={[styles.txtTitle]}>{rank_name}</Text>
+                </View>
+            </View>
+            <View style={styles.wrapItem}>
+                <View style={styles.wrapItemContent}>
+                    <Text style={[styles.txtTitle]}>Chức vụ</Text>
+                    <Text style={[styles.txtTitle]}>{position_name}</Text>
+                </View>
+            </View>
+            <View style={styles.wrapItem}>
+                <View style={styles.wrapItemContent}>
+                    <Text style={[styles.txtTitle]}>Đơn vị</Text>
+                    <Text style={[styles.txtTitle]}>{company_key}</Text>
+                </View>
+            </View>
+            <View style={styles.wrapItem}>
+                <View style={styles.wrapItemContent}>
                     <Text style={[styles.txtTitle]}>Tôn giáo</Text>
                     <Text style={[styles.txtTitle]}>{religion_name}</Text>
                 </View>
@@ -168,24 +186,7 @@ export default class SoliderDetailView extends Component {
                         <Text style={[styles.txtTitle]}>{zalo_link}</Text>
                     </View>
                 </View>
-                <View style={styles.wrapItem}>
-                    <View style={styles.wrapItemContent}>
-                        <Text style={[styles.txtTitle]}>Cấp bậc</Text>
-                        <Text style={[styles.txtTitle]}>{rank_name}</Text>
-                    </View>
-                </View>
-                <View style={styles.wrapItem}>
-                    <View style={styles.wrapItemContent}>
-                        <Text style={[styles.txtTitle]}>Đơn vị</Text>
-                        <Text style={[styles.txtTitle]}>{company_key}</Text>
-                    </View>
-                </View>
-                <View style={styles.wrapItem}>
-                    <View style={styles.wrapItemContent}>
-                        <Text style={[styles.txtTitle]}>Chức vụ</Text>
-                        <Text style={[styles.txtTitle]}>{position_name}</Text>
-                    </View>
-                </View>
+
             </View>
         )
     }
